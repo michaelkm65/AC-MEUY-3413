@@ -1,8 +1,15 @@
 vars = 1;
-input = "harmonic";
-load_system("AC1P1_model.slx")
+model = 'AC1P1_model';
+block = [model '/Input Functions'];
+paramName = 'SelectedSignal';
+load_system(model);
+
+input = "harmonic";    % accepts "step" or "harmonic"
+
 while vars < 5
     if input == "step"
+
+        set_param(block, paramName, num2str(1));
         switch vars
             case 1
                 m = 5; c = 100; k = 125;
@@ -13,7 +20,10 @@ while vars < 5
             case 4
                 m = 5; c = 1; k = 125;
         end
+
     elseif input == "harmonic"
+
+        set_param(block, paramName, num2str(2));
         switch vars
             case 1
                 m = 5; c = 0; k = 125; w = 1;
@@ -24,9 +34,10 @@ while vars < 5
             case 4
                 m = 5; c = 5; k = 125; w = 5;
         end
+
     end
 
-    out = sim("AC1P1_model.slx");
+    out = sim(model);
     data = out.simout;
     x = data.Data;
     t = data.Time;
@@ -46,4 +57,4 @@ end
 
 legend('Case 1', 'Case 2', 'Case 3', 'Case 4');
 xlabel('Time'); ylabel('Position'); grid on;
-close_system("AC1P1_model.slx")
+close_system(model,0);
