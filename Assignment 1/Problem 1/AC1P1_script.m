@@ -1,4 +1,5 @@
 vars = 1;
+w = 0;
 model = 'AC1P1_model';
 block = [model '/Input Functions'];
 paramName = 'SelectedSignal';
@@ -8,7 +9,6 @@ input = "harmonic";    % accepts "step" or "harmonic"
 
 while vars < 5
     if input == "step"
-
         set_param(block, paramName, num2str(1));
         switch vars
             case 1
@@ -41,7 +41,10 @@ while vars < 5
     data = out.simout;
     x = data.Data;
     t = data.Time;
+    %subplot(2, 2, vars);
     plot(t,x);
+    %title(compose("Case %d", vars));
+    %xlabel('Time'); ylabel('Position'); grid on;
     hold on;
     vars = vars + 1;
 
@@ -50,8 +53,10 @@ end
 hold off; 
 
 if input == "step"
+    %sgtitle('Step Response of Spring-Mass-Damper Systems'); 
     title('Step Response of Spring-Mass-Damper System'); 
 elseif input == "harmonic"
+    %sgtitle('Harmonic Response of Spring-Mass-Damper Systems'); 
     title('Harmonic Response of Spring-Mass-Damper System'); 
 end
 
